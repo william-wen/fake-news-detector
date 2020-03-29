@@ -11,7 +11,10 @@ pac = load("fake_news_classifier.joblib")
 tfidf_vectorizer = load("tfidf_vectorizer.joblib")
 
 vectorized_string = tfidf_vectorizer.transform(
-    ["Increased SO2 submissions detected above China indicates that China maybe burning bodies without telling the rest of the world. They say they have the disease under control but we all know president Xi Jinping is snake oil salesman who will do anything if it means he'll stay popular and remain in power. What an idiot! God bless free America and our president, Donald Trump."]
+    ["Increased SO2 submissions detected above China indicates that China maybe burning bodies without telling the rest of 
+    the world. They say they have the disease under control but we all know president Xi Jinping is snake oil salesman who
+    will do anything if it means he'll stay popular and remain in power. What an idiot! God bless free America and our
+    president, Donald Trump."]
 )
 
 prediction = pac.predict(vectorized_string)
