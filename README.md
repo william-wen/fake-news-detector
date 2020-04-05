@@ -22,7 +22,7 @@ prediction = pac.predict(vectorized_string)
 # Output: array(['FAKE'], dtype='<U4')
 ```
 
-### How to start
+## How to start
 
 First, we recommend running 
 ```
@@ -31,7 +31,7 @@ npm install
 ```
 in order to install the required packages
 
-## Starting the servers
+### Starting the servers
 
 To start the Flask backend, 
 
