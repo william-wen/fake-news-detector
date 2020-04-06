@@ -1,5 +1,4 @@
 import React from 'react'; 
-import axios from 'axios';
 
 class Form extends React.Component{
     constructor(props){
@@ -12,22 +11,28 @@ class Form extends React.Component{
     }
 
     handleSubmit = event => {
-        fetch('/verify', {
+        fetch('/parse_url', {
             method: 'POST',
             body: JSON.stringify(this.state),
         }).then(res => res.json())
-            .then(data => console.log(data))
-            .catch(err => console.error("Error:", err));
+            .then(data => {
+                document.getElementById("article_text").value = data.message;
+            })
+            .catch(err => console.log("Error:", err));
         event.preventDefault();
     }
 
     render(){
         return (
-            <form onSubmit={this.handleSubmit}>
-                <label>Input the news article link here: <br/></label>
-                <input id="input-url" placeholder="Paste your article link here" value={this.state.url} onChange={this.handleChange} />
-                <input type="submit" value="Submit" />            
-            </form>
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    <label>Input the news article link here: <br/></label>
+                    <input id="input-url" placeholder="Paste your article link here" value={this.state.url} onChange={this.handleChange} />
+                    <input type="submit" value="Submit" />            
+                </form>
+                <p>Your article</p>
+                <textarea id="article_text" rows="10" cols="50" />
+            </div>
         )
     }
 }
