@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/william-wen/fake-news-detector/issues"
   },
-  "homepage": "https://github.com/william-wen/fake-news-detector#readme"
+  "homepage": "https://github.com/william-wen/fake-news-detector#readme",
+  "dependencies": {
+    "font-awesome": "^4.7.0"
+  }
 }

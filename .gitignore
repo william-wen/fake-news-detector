@@ -6,3 +6,4 @@ __pycache__/
 venv/
 .vscode
 spider/
+node_modules/
