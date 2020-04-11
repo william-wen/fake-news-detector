@@ -12,23 +12,20 @@ import time
 import json
 import re
 
-
 app = Flask(__name__)
 
 @app.route('/parse_url', methods=["POST"])
 
 # validates the url sent by the user, return error if not confirm to proper url format
 def parse_url():
-    message = ''
-    prediction = ''
-    title = ''
+    message,prediction,title,error = ['','','','']
     request_url = json.loads(request.data).get('url')
     if request_url is None:
-        message = "No url in request data"
+        error = "No url in request data"
     valid=valid=validators.url(request_url)
     if not valid:
-        message = "Not a valid url"
-    if not message:
+        error = "Not a valid url"
+    if not error:
         try:
             html = requests.get(request_url).content
             text_content = text_from_html(html)
@@ -36,8 +33,8 @@ def parse_url():
             message = text_content
             prediction = prediction_response(text_content)
         except Exception as e:
-            message = "The following error happened:" + str(e)
-    return {'message':message, "title":title, "prediction":prediction}
+            error = str(e)
+    return {'message':message, "title":title, "prediction":prediction, 'error':error}
 
 # takes all the text from <p> tags in the website, which is the article
 def text_from_html(body):
@@ -48,11 +45,21 @@ def text_from_html(body):
         all_text = all_text + p.text
     return all_text.strip()
 
+def containsBold(text):
+    return 'bold' in text
+
 # gets the article title from the website
 def article_title_from_html(body):
+    title = "title not found"
     soup = BeautifulSoup(body, "html.parser")
     all_h = soup.findAll(["h1", "h2", "h3"])
-    return all_h[0].text.strip()
+    if all_h:
+        title = all_h[0].text.strip()
+    else:
+        title_span = soup.find('span', {'style':containsBold})
+        if title_span:
+            title = title_span.text.strip()
+    return title
 
 # run the ML model on the submitted article
 def prediction_response(text):

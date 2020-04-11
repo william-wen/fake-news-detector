@@ -8,7 +8,8 @@ class Form extends React.Component{
         display:'none',
         message:'',
         title:'',
-        prediction:''
+        prediction:'',
+        error:''
     }
 
     handleChange = event => {
@@ -27,7 +28,8 @@ class Form extends React.Component{
                     display:'block',
                     message: data.message,
                     title:data.title,
-                    prediction:data.prediction
+                    prediction:data.prediction,
+                    error:data.error
                 });
             })
             .catch(err => console.log("Error:", err));
@@ -37,7 +39,7 @@ class Form extends React.Component{
     render(){
         const {loading} = this.state.loading;
         return (
-            <div>
+            <div style={{marginBottom:'10%'}}>
                 <form onSubmit={this.handleSubmit}>
                     <label>Input the news article link here: <br/></label>
                     <input id="input-url" placeholder="Paste your article link here" value={this.state.url} onChange={this.handleChange} />
@@ -46,13 +48,17 @@ class Form extends React.Component{
                     <div style={{display:this.state.loading}}><i className="fa fa-refresh fa-spin" />   Loading...</div>
                     {/* </button>           */}
                 </form>
-                <div id="article_render" style={{display: this.state.display}}>
+                <div id="article_render" style={{display: this.state.message === '' ? 'none' : 'block'}}>
                     <p>The title of your article:</p>
                     <div id="article_title" >{this.state.title}</div>
                     <p>Your article</p>
                     <textarea id="article_text" rows="30" cols="70" readOnly value = {this.state.message} />
                     <div>The result of the ML detection:</div>
                     <div id="result">{this.state.prediction}</div>
+                </div>
+                <div id="error_div" style={{display: this.state.error === '' ? 'none' : 'block'}}>
+                    The following error occurred:
+                <div id="error_message">{this.state.error}</div>
                 </div>
             </div>
         )
