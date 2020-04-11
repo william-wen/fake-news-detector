@@ -1,3 +1,9 @@
 .DS_Store
 .ipynb_checkpoints
 test.ipynb
+
+__pycache__/
+venv/
+.vscode
+spider/
+node_modules/
