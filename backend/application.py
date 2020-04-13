@@ -5,6 +5,7 @@ from flask import jsonify
 from bs4 import BeautifulSoup
 from joblib import dump, load
 from bs4.element import Comment
+import mysql.connector as mysql
 import urllib.request
 import requests
 import validators
@@ -13,6 +14,16 @@ import json
 import re
 
 app = Flask(__name__)
+
+db = mysql.connect(
+    host = "localhost",
+    user = "root",
+    passwd = "admin",
+    database = "newsdb"
+)
+
+cursor = db.cursor()
+query = "SELECT name, user_name FROM users"
 
 @app.route('/parse_url', methods=["POST"])
 
